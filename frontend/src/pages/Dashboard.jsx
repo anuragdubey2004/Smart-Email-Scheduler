@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import ComposeModel from '../components/ComposeModel';
 import DashboardNavbar from '../components/DashboardNavbar';
-import EmailDetailModel from '../components/EmailDetailModel'; // Import the new modal!
+import EmailDetailModel from '../components/EmailDetailModel'; 
+import API from '../api';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -13,13 +13,12 @@ const Dashboard = () => {
   const [isComposeOpen, setIsComposeOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('inbox'); 
   
-  // NEW: State to remember which email we clicked on
   const [selectedEmail, setSelectedEmail] = useState(null);
 
   const fetchEmails = async (tabToFetch) => {
     try {
       const endpoint = tabToFetch === 'inbox' ? '/inbox' : '/scheduled';
-      const response = await axios.get(`http://localhost:8000${endpoint}`, { withCredentials: true });
+      const response = await API.get(endpoint);
       setEmails(response.data);
     } catch (error) {
       console.error("Could not fetch emails", error);
@@ -29,7 +28,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchSessionData = async () => {
       try {
-        const userRes = await axios.get('http://localhost:8000/verify-session', { withCredentials: true });
+        const userRes = await API.get('/verify-session', { withCredentials: true });
         setUserName(userRes.data.name);
       } catch (error) {
         navigate('/login');
@@ -40,13 +39,12 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchEmails(activeTab);
-    // Close the email detail view if we switch tabs
     setSelectedEmail(null); 
   }, [activeTab]);
 
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:8000/logout', {}, { withCredentials: true });
+      await API.post('/logout', {}, { withCredentials: true });
       navigate('/login');
     } catch (error) {
       console.error("Logout failed", error);
@@ -66,7 +64,7 @@ const Dashboard = () => {
       <DashboardNavbar userName={userName} onLogout={handleLogout} />
 
       <div className="flex flex-1 overflow-hidden pt-2">
-        {/* SIDEBAR */}
+    
         <div className="w-64 pr-4 flex flex-col gap-2">
           <div className="px-2 mb-4">
             <button 
@@ -86,7 +84,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* EMAIL LIST */}
         <div className="flex-1 overflow-y-auto bg-white rounded-2xl mr-4 mt-2">
           <div className="flex flex-col">
             {displayedEmails.length === 0 ? (
@@ -96,7 +93,6 @@ const Dashboard = () => {
                 const isSent = new Date(email.send_time) <= new Date();
 
                 return (
-                  // NEW: Added onClick here so clicking the row opens the email
                   <div 
                     key={email.id} 
                     onClick={() => setSelectedEmail(email)}
@@ -133,14 +129,12 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* MODALS */}
       <ComposeModel 
         isOpen={isComposeOpen} 
         onClose={() => setIsComposeOpen(false)} 
         refreshEmails={() => fetchEmails(activeTab)} 
       />
       
-      {/* NEW: The Email Detail Modal */}
       <EmailDetailModel 
         email={selectedEmail} 
         onClose={() => setSelectedEmail(null)} 

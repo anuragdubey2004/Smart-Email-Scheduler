@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import API from '../api';
 
 const ComposeModal = ({ isOpen, onClose, refreshEmails }) => {
   const [toEmail, setToEmail] = useState('');
@@ -18,7 +18,7 @@ const ComposeModal = ({ isOpen, onClose, refreshEmails }) => {
 
     try {
       const utcTime = new Date(sendTime).toISOString();
-      await axios.post('http://localhost:8000/schedule', {
+      await API.post('/schedule', {
         to_email: toEmail,
         subject: subject,
         body: body,

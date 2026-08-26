@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import PublicNavbar from '../components/PublicNavbar';
 import API from '../api';
@@ -35,13 +34,10 @@ const Signup = () => {
   };
 
   return (
-    // 1. The clean background with NO invisible walls
     <div className="min-h-screen flex flex-col bg-gray-50">
       
-      {/* 2. The Navbar stretching across the top */}
       <PublicNavbar />
       
-      {/* 3. The inner box that pushes your form to the middle */}
       <div className="flex-grow flex flex-col items-center justify-center p-4">
         
         <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100 w-full max-w-md">

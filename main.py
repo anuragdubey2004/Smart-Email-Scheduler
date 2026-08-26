@@ -151,24 +151,21 @@ def verify_session(current_user: user_model.User = Depends(get_current_user)):
     }
 
 
+## For Inbox
 @app.get("/inbox")
 def get_inbox(
     current_user: user_model.User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    # 1. Safely fetch all messages sent TO this user
     messages = db.query(message_model.Message).filter(
         message_model.Message.to_email == current_user.email
     ).order_by(message_model.Message.id.desc()).all()
     
-    # 2. Get all users ONCE to prevent database crashes
     all_users = db.query(user_model.User).all()
     user_email_map = {user.id: user.email for user in all_users}
     
-    # 3. Package them manually
     inbox_emails = []
     for msg in messages:
-        # FIXED: Using msg.owner_id instead of msg.user_id
         sender_email = user_email_map.get(msg.owner_id, "Unknown")
         
         inbox_emails.append({
@@ -182,6 +179,8 @@ def get_inbox(
         
     return inbox_emails
 
+
+## Stored mail in Scheduled Mail
 @app.get("/scheduled")
 def get_scheduled(
     current_user: user_model.User = Depends(get_current_user),
