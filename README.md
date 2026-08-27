@@ -49,12 +49,18 @@
 > <img width="1536" height="768" alt="image" src="https://github.com/user-attachments/assets/430119fe-2c0d-4fdd-aea8-a937c0d2bad4" />
 
 <!-- TODO: Paste your dashboard screenshot here -->
-> **Dashboard View**
-> *[Insert Dashboard Screenshot Link Here]*
+> **Dashboard View**: A clean view displaying all your successfully received emails.
+> <img width="1522" height="760" alt="image" src="https://github.com/user-attachments/assets/e18cf77d-840b-4826-9172-0306489ea323" />
+
 
 <!-- TODO: Paste your scheduler/compose form screenshot here -->
-> **Email Scheduling Interface**
-> *[Insert Scheduler Screenshot Link Here]*
+> **Email Scheduling Interface**: A simple pop-up box where you can easily write messages and pick a future time to schedule them.
+> <img width="1527" height="766" alt="image" src="https://github.com/user-attachments/assets/a5027feb-f30e-40df-99a6-2bd3843d9efc" />
+
+
+> **Scheduled Mail Tab**: Tracks your outgoing emails and shows if they are pending or already sent using clear icons.
+> <img width="1529" height="759" alt="image" src="https://github.com/user-attachments/assets/635fa5a4-4e11-45c6-a12f-070cddcc8c54" />
+
 
 ---
 
@@ -64,13 +70,4 @@
 3. **Database Operations:** User data and email states are securely stored and queried using PostgreSQL via SQLAlchemy.
 4. **Background Automation:** Scheduled tasks are queued into **Redis** and processed asynchronously via **Celery** workers to ensure reliable delivery.
 
----
 
-## 🚀 Getting Started Locally
-
-If you want to run this project locally on your machine, follow these steps:
-
-### Prerequisites
-* Python 3.10+
-* Node.js & npm
-* PostgreSQL & Redis installed locally or via cloud instances
