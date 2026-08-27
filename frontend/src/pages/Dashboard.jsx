@@ -52,7 +52,7 @@ const Dashboard = () => {
   };
 
   const displayedEmails = emails.filter((email) => {
-    const isSent = new Date(email.send_time) <= new Date();
+    const isSent = new Date(email.send_time + 'Z') <= new Date();
     if (activeTab === 'inbox') {
       return isSent; 
     }
@@ -90,7 +90,7 @@ const Dashboard = () => {
               <p className="p-8 text-center text-gray-500 mt-10">Nothing to see here!</p>
             ) : (
               displayedEmails.map((email) => {
-                const isSent = new Date(email.send_time) <= new Date();
+                const isSent = new Date(email.send_time + 'Z') <= new Date();
 
                 return (
                   <div 
@@ -119,7 +119,7 @@ const Dashboard = () => {
                     </div>
 
                     <div className="w-24 text-right text-xs font-bold text-gray-900">
-                      {new Date(email.send_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      {new Date(email.send_time + 'Z').toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </div>
                   </div>
                 );
